@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">A00994454Asn1</string>
+    <string name="app_name">Photogallery Application</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="snap">Snap</string>
+    <string name="search">Search</string>
+    <string name="timeStamp">Time</string>
+    <string name="caption">Caption</string>
+    <string name="searchText">Search photo album</string>
+    <string name="enter">Enter</string>
+    <string name="result">result</string>
 </resources>
