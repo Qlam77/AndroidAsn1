@@ -11,76 +11,178 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2"
+        android:weightSum="3"
         android:focusable="true"
         android:focusableInTouchMode="true"
         >
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
-            <EditText
-                android:id="@+id/searchBox"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/captionSearch"
-                android:inputType="textPersonName" />
+                android:orientation="vertical"
+                android:layout_weight="2">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="256dp"
-            tools:layout_editor_absoluteY="67dp">
+                    <EditText
+                        android:id="@+id/searchBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:ems="10"
+                        android:hint="@string/captionSearch"
+                        android:imeOptions="actionDone"
+                        android:inputType="text" />
 
-            <EditText
-                android:id="@+id/Start Date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/startDate"
-                android:inputType="date" />
+                </LinearLayout>
 
-            <EditText
-                android:id="@+id/End Date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/endDate"
-                android:inputType="date" />
+                <LinearLayout
+                    android:id="@+id/dateContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/startDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:hint="@string/startDate"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:onClick="startSelect" />
 
+                    <EditText
+                        android:id="@+id/endDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:hint="@string/endDate"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:onClick="endSelect" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/topLeftLat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/topLeft1"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/topLeftLong"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/topLeft2"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/BotRightLat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/botLeftLat"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/BotRightLong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/botRightLong"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/filterRadio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="4"
+            android:checkedButton="@id/captionRadio"
+            >
+                <RadioButton
+                    android:id="@+id/captionRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:hint="@string/caption" />
+
+                <RadioButton
+                    android:id="@+id/dateRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:hint="@string/date" />
+
+                <RadioButton
+                    android:id="@+id/searchArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:hint="@string/Coordinates" />
+        </RadioGroup>
+    </LinearLayout>
         <Button
             android:id="@+id/searchConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="findByCaption"
+            android:onClick="searchByFilter"
             android:text="@string/filter" />
-
-        <Button
-            android:id="@+id/searchFinish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="endSearch"
-            android:text="@string/done"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/searchFinish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="endSearch"
+        android:text="@string/done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

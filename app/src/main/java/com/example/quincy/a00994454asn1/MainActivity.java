@@ -1,30 +1,35 @@
 package com.example.quincy.a00994454asn1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.media.ExifInterface;
 
-import org.w3c.dom.Text;
-
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String TAG = "MainActivity";
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -44,11 +49,50 @@ public class MainActivity extends AppCompatActivity {
 
     private int pictureSet = 0;
 
+    private int wasFiltered = 0;
+
+    private Button uploadBut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        uploadBut = findViewById(R.id.uploadMe);
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected()) {
+            uploadBut.setEnabled(true);
+        } else {
+            uploadBut.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (getIntent().hasExtra("filterData") && wasFiltered == 0) {
+            Bundle extra = getIntent().getBundleExtra(("filterData"));
+            ArrayList<String> paths = (ArrayList<String>) extra.getSerializable("objects");
+            processFilePaths(paths);
+            curIndex = 0;
+            setMainView(listOfFiles[curIndex].getAbsolutePath());
+            wasFiltered = 1;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected()) {
+            uploadBut.setEnabled(true);
+        } else {
+            uploadBut.setEnabled(false);
+        }
     }
 
     public void searchMode(View view) {
@@ -100,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             galleryAddPic();
             setPic(mCurrentPhotoPath);
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
             listOfFiles = storageDir.listFiles();
             curIndex = listOfFiles.length - 1;
             pictureTaken = 1;
@@ -239,7 +284,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void left(View view) {
-        listOfFiles = storageDir.listFiles();
+        if (getIntent().hasExtra("filterData")) {
+            //filter data processed on new intent
+//            Bundle extra = getIntent().getBundleExtra(("filterData"));
+//            ArrayList<String> paths = (ArrayList<String>) extra.getSerializable("objects");
+//            processFilePaths(paths);
+        } else {
+            listOfFiles = storageDir.listFiles();
+        }
         if (listOfFiles.length != 0) {
             if (pictureTaken == 1) {
                 prevNextSaveCaption(mCurrentPhotoPath);
@@ -251,18 +303,23 @@ public class MainActivity extends AppCompatActivity {
             if(curIndex < 0) {
                 curIndex = listOfFiles.length - 1;
             }
-            setTime(listOfFiles[curIndex].getAbsolutePath());
-            setPic(listOfFiles[curIndex].getAbsolutePath());
-            setLocation(listOfFiles[curIndex].getAbsolutePath());
-            setCaption(listOfFiles[curIndex].getAbsolutePath());
+            setMainView(listOfFiles[curIndex].getAbsolutePath());
             pictureSet = 1;
         }
     }
 
     public void right(View view){
-        listOfFiles = storageDir.listFiles();
+        String pathing = "";
+        if (getIntent().hasExtra("filterData")) {
+            //filter data processed on new intent
+//            Bundle extra = getIntent().getBundleExtra(("filterData"));
+//            ArrayList<String> paths = (ArrayList<String>) extra.getSerializable("objects");
+//            processFilePaths(paths);
+        } else {
+            listOfFiles = storageDir.listFiles();
+        }
         if (listOfFiles.length != 0) {
-            if (pictureTaken == 1) {
+             if (pictureTaken == 1) {
                 prevNextSaveCaption(mCurrentPhotoPath);
                 pictureTaken = 0;
             } else if (pictureSet == 1) {
@@ -273,11 +330,46 @@ public class MainActivity extends AppCompatActivity {
             if (curIndex >= listOfFiles.length) {
                 curIndex = 0;
             }
-            setTime(listOfFiles[curIndex].getAbsolutePath());
-            setPic(listOfFiles[curIndex].getAbsolutePath());
-            setLocation(listOfFiles[curIndex].getAbsolutePath());
-            setCaption(listOfFiles[curIndex].getAbsolutePath());
+
+            setMainView(listOfFiles[curIndex].getAbsolutePath());
             pictureSet = 1;
         }
+    }
+
+    private void setMainView(String pathing) {
+        setTime(pathing);
+        setPic(pathing);
+        setLocation(pathing);
+        setCaption(pathing);
+    }
+
+    private void processFilePaths(ArrayList<String> list) {
+        ArrayList<File> files = new ArrayList<File>();
+        for (String path: list) {
+            try {
+                files.add(new File(path));
+                listOfFiles = files.toArray(new File[files.size()]);
+            } catch (Exception E) {
+                Log.d(TAG, "Failed to transfer array");
+            }
+        }
+        files.clear();
+    }
+
+    public void upload(View view) {
+        uploadBut.setText("Uploading");
+        byte[] data = null;
+        Bitmap bi = BitmapFactory.decodeFile(listOfFiles[curIndex].getAbsolutePath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bi.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        data = baos.toByteArray();
+
+        Bundle params = new Bundle();
+        params.putString("method", "photos.upload");
+        params.putByteArray("picture", data);
+//
+//        AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
+//        mAsyncRunner.request(null, params, "POST", new SampleUploadListener(), null);
+        uploadBut.setText("Upload");
     }
 }

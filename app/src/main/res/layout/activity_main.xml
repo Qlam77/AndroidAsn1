@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -105,6 +105,14 @@
                 android:layout_weight="1"
                 android:onClick="snapMode"
                 android:text="@string/snap" />
+
+            <Button
+                android:id="@+id/uploadMe"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/upload"
+                android:onClick="upload"/>
 
             <Button
                 android:id="@+id/searchButton"
