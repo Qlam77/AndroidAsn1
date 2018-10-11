@@ -15,6 +15,15 @@
     <string name="location">Location</string>
     <string name="filter">Filter</string>
     <string name="captionSearch">Search by Caption</string>
-    <string name="startDate">Start Date</string>
-    <string name="endDate">End Date</string>
+    <string name="startDate">Start date</string>
+    <string name="endDate">End date</string>
+    <string name="topLeft">Top Left</string>
+    <string name="bottomRight">Bottom Right</string>
+    <string name="date">Date</string>
+    <string name="Coordinates" >Search Area</string>
+    <string name="topLeft1">Top Left Lat</string>
+    <string name="topLeft2">Top Left Long</string>
+    <string name="botLeftLat">Bot Right Lat</string>
+    <string name="botRightLong">Bot Right Long</string>
+    <string name="upload">Upload</string>
 </resources>
