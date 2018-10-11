@@ -9,4 +9,12 @@
     <string name="searchText">Search photo album</string>
     <string name="enter">Enter</string>
     <string name="result">result</string>
+    <string name="save">Save</string>
+    <string name="Photo">Photo</string>
+    <string name="done">Done</string>
+    <string name="location">Location</string>
+    <string name="filter">Filter</string>
+    <string name="captionSearch">Search by Caption</string>
+    <string name="startDate">Start Date</string>
+    <string name="endDate">End Date</string>
 </resources>
