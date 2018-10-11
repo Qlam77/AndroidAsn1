@@ -8,39 +8,79 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="384dp"
-        android:layout_height="511dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <EditText
                 android:id="@+id/searchBox"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/searchText"
+                android:hint="@string/captionSearch"
                 android:inputType="textPersonName" />
-
-            <Button
-                android:id="@+id/searchConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/enter" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/resultText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/result" />
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="256dp"
+            tools:layout_editor_absoluteY="67dp">
+
+            <EditText
+                android:id="@+id/Start Date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/startDate"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/End Date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/endDate"
+                android:inputType="date" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/searchConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="findByCaption"
+            android:text="@string/filter" />
+
+        <Button
+            android:id="@+id/searchFinish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="endSearch"
+            android:text="@string/done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </LinearLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>
